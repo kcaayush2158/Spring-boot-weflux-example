@@ -24,5 +24,10 @@ public class RequestHandler {
     return ServerResponse.ok().body(responseMono,Response.class);
     }
 
+    public Mono<ServerResponse> findSquare(ServerRequest serverRequest){
+            int input = Integer.parseInt(serverRequest.pathVariable("input"));
+        Mono<Response> responseMono  = this.reactiveMathService.findSquare(input);
+        return ServerResponse.ok().body(responseMono,Response.class) ;
+    }
 
 }

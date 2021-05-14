@@ -20,10 +20,12 @@ public class ReactiveMathValidationController {
 
     @GetMapping("/square/{input}/throw")
     public Mono<Response> findSquare(@PathVariable("input") int input){
-        if(input < 10 || input < 10 ){
+        if(input >= 10 || input  <=10 ){
             throw  new InputValidationException(input);
         }
         return this.reactiveMathService.findSquare(input);
     }
+
+
 
 }

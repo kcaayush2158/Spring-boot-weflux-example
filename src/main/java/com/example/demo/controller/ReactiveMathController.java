@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+import java.util.Map;
+
 @RestController
 @RequestMapping("reactive-math")
 public class ReactiveMathController {
@@ -31,7 +33,8 @@ public class ReactiveMathController {
         return this.reactiveMathService.multiplicationTable(input);
     }
     @PostMapping("multiply")
-    public Mono<Response> multiply (@RequestBody Mono<MultiplyRequestDTO> requestDTOMono){
+    public Mono<Response> multiply (@RequestBody Mono<MultiplyRequestDTO> requestDTOMono, @RequestHeader Map<String ,String> headers){
+        System.out.println(headers);
         return  this.reactiveMathService.multiply(requestDTOMono);
 
     }

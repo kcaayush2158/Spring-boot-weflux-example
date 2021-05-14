@@ -2,6 +2,7 @@ package com.example.demo.config;
 
 import com.example.demo.dto.InputFailedValidationResponse;
 import com.example.demo.exception.InputValidationException;
+import com.example.demo.service.ReactiveMathService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -14,7 +15,8 @@ import java.util.function.BiFunction;
 public class RouterConfig {
     @Autowired
     private RequestHandler requestHandler;
-
+    @Autowired
+    private ReactiveMathService reactiveMathService;
 
     @Bean
     public  RouterFunction<ServerResponse>  highLevelRouter(){
@@ -26,6 +28,7 @@ public class RouterConfig {
     @Bean
    public  RouterFunction<ServerResponse>  routerFunction(){
         return RouterFunctions.route()
+                .GET("reactive-math/square/{number}",requestHandler::findSquare)
                 .GET("/square/{input}/validation", RequestPredicates.path("*/1?").or(RequestPredicates.path("*/20")),requestHandler::squareHandlerWithValidation)
                 .GET("/square/{input}/validation",request -> ServerResponse.badRequest().bodyValue("only 10-19 allowed"))
                 .onError(InputValidationException.class,exceptionHandler())
